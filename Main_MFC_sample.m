@@ -15,8 +15,7 @@ parameters.Kp = 3.2; % Kp in the P controller. Tune it a little bit
 % if necessary based on your model
 
 
-% This part is generating data from a sample model to be used 
-% in MFC. 
+% This part is generating data from a sample model to be used in MFC. 
 sys.A =  0.9998;
 sys.B =  0.2565;
 sys.C = 1;
@@ -32,11 +31,12 @@ end
 
 % Control part prelim: This is reference trajectory generation. Whatever
 % desired output you want, make that the setpoint. 
-setpoint = 3*ones(1,length(timevector));
+setpoint = 23*ones(1,length(timevector));
 G_inertialComp = tf(1,[1 1]);
 ref = lsim(G_inertialComp,setpoint,timevector)';
 G_inertialComp_ddt = tf([1 0],[1 1]);
 dref = lsim(G_inertialComp_ddt,setpoint,timevector)';
+% plot(ref)
 
 % Initial settings 
 n = length(0:tsamp:L); %n is the number of samples in [t-L,t]
@@ -44,6 +44,7 @@ a = 0;
 k_a = find(abs(timevector-(a)) < 1e-6); 
 b = a + L;
 k_b = find(abs(timevector-(b)) < 1e-6); 
+% plot(k_b)
 
 for i = 1:length(timevector)-n
     reference.ref = ref(k_b);
@@ -75,4 +76,4 @@ title(['# of samples = ' num2str(n)],'FontSize', 15)
 xlabel('Time in seconds','FontSize', 15)
 ylabel('Output of the system','FontSize', 15)
 
-figure; plot(e); title('Error')
+figure; plot(e, 'LineWidth', 2); title('Error')

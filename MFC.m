@@ -20,6 +20,11 @@ term_u = alpha.*sigma.*(L-sigma).*u_sigma;
 to_be_integrated = -6*(term_y + term_u)/(L^3);
 Phi = trapz(to_be_integrated)*tsamp;
 
+% term_y = y_sigma;
+% term_u = alpha.*sigma.*(L-sigma).*u_sigma;
+% to_be_integrated = (term_y + term_u)/(L);
+% Phi = trapz(to_be_integrated)*tsamp;
+
 e = y(end) - ref;
 uc = Phi - dref + Kp*e;
 uc = -uc/alpha;
